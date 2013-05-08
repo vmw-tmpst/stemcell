@@ -224,7 +224,7 @@ protected
       end
 
       @logger.info "Checking agent source: #@agent_src_path"
-      raise "Agent source #@agent_src_path doens't exist" unless File.exists? @agent_src_path
+      raise "Agent source #@agent_src_path doesn't exist" unless File.exists? @agent_src_path
 
       @logger.info "Checking definitions dir..."
       raise "Definition for '#{type}' does not exist at path '#{definition_dir}'" unless Dir.exist? definition_dir
