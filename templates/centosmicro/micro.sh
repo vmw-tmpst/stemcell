@@ -18,10 +18,7 @@ mkdir -p /tmp/package_compiler
 pushd /tmp/package_compiler
     cp $SRC_DIR/_package_compiler.tar .
     tar -xvf _package_compiler.tar
-    $bosh_dir/bin/gem install agent_client*.gem --no-ri --no-rdoc --local
-    $bosh_dir/bin/gem install bosh_common*.gem --no-ri --no-rdoc --local
-    $bosh_dir/bin/gem install blobstore_client*.gem --no-ri --no-rdoc --local
-    $bosh_dir/bin/gem install package_compiler*.gem --no-ri --no-rdoc
+    $bosh_dir/bin/gem install *.gem --no-ri --no-rdoc
 popd
 
 mkdir -p ${bosh_app_dir}/bosh/blob
