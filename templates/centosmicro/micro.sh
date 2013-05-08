@@ -19,10 +19,7 @@ pushd /tmp/package_compiler
     $bosh_dir/bin/gem install agent_client*.gem --no-ri --no-rdoc --local
     $bosh_dir/bin/gem install bosh_common*.gem --no-ri --no-rdoc --local
     $bosh_dir/bin/gem install blobstore_client*.gem --no-ri --no-rdoc --local
-
-    # TODO: Not sure why but w/o this package_compiler does not install trollop-1.16.x
-    $bosh_dir/bin/gem install trollop --no-ri --no-rdoc --local
-    $bosh_dir/bin/gem install package_compiler*.gem --no-ri --no-rdoc --local
+    $bosh_dir/bin/gem install package_compiler*.gem --no-ri --no-rdoc
 popd
 
 mkdir -p ${bosh_app_dir}/bosh/blob
