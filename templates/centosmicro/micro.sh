@@ -3,9 +3,11 @@
 source _variables.sh
 
 blobstore_path=${bosh_app_dir}/micro_bosh/data/cache
+agent_username=vcap
+agent_password=vcap
 agent_host=localhost
 agent_port=6969
-agent_uri=http://vcap:vcap@${agent_host}:${agent_port}
+agent_uri=https://${agent_username}:${agent_password}@${agent_host}:${agent_port}
 export PATH=${bosh_app_dir}/bosh/bin:$PATH
 
 # Packages
@@ -24,6 +26,10 @@ popd
 
 mkdir -p ${bosh_app_dir}/bosh/blob
 mkdir -p ${blobstore_path}
+
+# Start nats-server as a daemon
+echo "Starting nats-server"
+nats-server -p ${agent_port} --ssl -d  --user ${agent_username} --pass ${agent_password}
 
 echo "Starting micro bosh compilation"
 
