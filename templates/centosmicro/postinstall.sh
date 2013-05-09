@@ -28,7 +28,7 @@ dpkg -l > $bosh_dir/stemcell_dpkg_l.out
 # Clean out all the scripts
 rm -f _60-bosh-sysctl.conf _monitrc _ntpdate _sysstat _empty_state.yml _variables.sh _helpers.sh _bosh_agent.tar
 rm -f timestamp.sh apt-upgrade.sh sudo.sh setup-bosh.sh base-stemcell.sh monit.sh ruby.sh bosh_agent.sh vmware-tools.sh network-cleanup.sh
-rm -f zero-disk.sh harden.sh micro.sh postinstall.sh _release.yml _release.tar _package_compiler.tar *.iso *.gem
+rm -f zero-disk.sh harden.sh micro.sh postinstall.sh _release.yml _release.tar _package_compiler.tar *.iso *.gem _ruby-1.9.3-p385.tar.gz
 
 sed -i -e 's/^\(timeout=.*\)$/timeout=0/g' /boot/grub/menu.lst
 sed -i -e 's/^\(timeout=.*\)$/timeout=0/g' /boot/grub/grub.conf
