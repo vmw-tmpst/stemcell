@@ -2,12 +2,12 @@
 
 source _variables.sh
 
-apt-get -y install libpam-dev
-
 ### stage bosh_monit
 mkdir -p $bosh_dir/etc
-cp $SRC_DIR/_monitrc $bosh_dir/etc/monitrc
+cp _monitrc $bosh_dir/etc/monitrc
 chmod 0700 $bosh_dir/etc/monitrc
+
+yum -y install pam-devel
 
 pushd /tmp
     [ ! -f "monit-5.5.tar.gz" ] && wget http://mmonit.com/monit/dist/monit-5.5.tar.gz

@@ -16,7 +16,7 @@ pushd /tmp/bosh_agent
     echo '#!/bin/bash
     export PATH=/var/vcap/bosh/bin:$PATH
     exec 2>&1
-    exec /var/vcap/bosh/bin/bosh_agent --configure --infrastructure=`cat /etc/infrastructure` --platform=ubuntu
+    exec /var/vcap/bosh/bin/bosh_agent --configure --infrastructure=`cat /etc/infrastructure` --platform=rhel
     ' > /etc/sv/agent/run
 
     echo '#!/bin/bash
@@ -26,7 +26,7 @@ pushd /tmp/bosh_agent
     # runit
     chmod +x /etc/sv/agent/run /etc/sv/agent/log/run
 
-    ln -s /etc/sv/agent /etc/service/agent
+    ln -s /etc/sv/agent /etc/service
 
     cp $SRC_DIR/_empty_state.yml $bosh_dir/state.yml
 

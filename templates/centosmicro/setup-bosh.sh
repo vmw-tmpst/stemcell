@@ -2,12 +2,19 @@
 
 source _variables.sh
 
-### stage bosh_debs
-apt-get -y -qq --force-yes install scsitools mg htop module-assistant debhelper runit
-# `rescan-scsi-bus` doesn't have the `.sh` suffix on Ubuntu Precise
-pushd /sbin
+yum -y install glibc-static sg3_utils
+
+pushd /usr/bin
     if [ ! -f rescan-scsi-bus.sh ]
     then
       ln -s rescan-scsi-bus rescan-scsi-bus.sh
     fi
+popd
+
+pushd /tmp
+	yum -y install git rpm-build rpmdevtools gcc glibc-static make
+	git clone https://github.com/imeyer/runit-rpm.git
+	cd runit-rpm
+	./build.sh
+	rpm -i ~/rpmbuild/RPMS/*/*.rpm
 popd

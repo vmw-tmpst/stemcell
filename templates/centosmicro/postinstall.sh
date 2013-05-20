@@ -7,6 +7,7 @@ source _variables.sh
 cp $SRC_DIR/_sysstat /etc/default/sysstat
 
 ### stage bosh_sysctl
+[ ! -d /etc/sysctl.d ] && mkdir -p /etc/sysctl.d
 cp $SRC_DIR/_60-bosh-sysctl.conf /etc/sysctl.d/60-bosh-sysctl.conf
 chmod 0644 /etc/sysctl.d/60-bosh-sysctl.conf
 
@@ -19,28 +20,8 @@ echo "0,15,30,45 * * * * ${bosh_dir}/bin/ntpdate" > /tmp/ntpdate.cron
 crontab -u root /tmp/ntpdate.cron
 rm /tmp/ntpdate.cron
 
-### stage micro_bosh ???
+# Final system update
+yum -y update
 
-### stage bosh_dpkg_list ??? How do we get back a list of things
 # Create list of installed packages -- legal requirement
-dpkg -l > $bosh_dir/stemcell_dpkg_l.out
-
-# Clean out all the scripts
-rm -f _60-bosh-sysctl.conf _monitrc _ntpdate _sysstat _empty_state.yml _variables.sh _helpers.sh _bosh_agent.tar
-rm -f timestamp.sh apt-upgrade.sh sudo.sh setup-bosh.sh base-stemcell.sh monit.sh ruby.sh bosh_agent.sh vmware-tools.sh network-cleanup.sh
-rm -f zero-disk.sh harden.sh micro.sh postinstall.sh _release.yml _release.tar _package_compiler.tar *.iso *.gem _ruby-1.9.3-p385.tar.gz
-
-sed -i -e 's/^\(timeout=.*\)$/timeout=0/g' /boot/grub/menu.lst
-sed -i -e 's/^\(timeout=.*\)$/timeout=0/g' /boot/grub/grub.conf
-
-# Clean out ssh host keys
-# install runonce
-mkdir -p /etc/local/runonce.d/ran
-cp $SRC_DIR/_runonce /usr/local/bin/runonce
-chmod +x /usr/local/bin/runonce
-
-# Do some firstboot clean up
-# Regenerate ssh keys
-/usr/local/bin/runonce "rm -f /etc/ssh/ssh_host_*"
-/usr/local/bin/runonce "dpkg-reconfigure -fnoninteractive -pcritical openssh-server"
-
+yum list installed > $bosh_dir/stemcell_yum_list_installed.out

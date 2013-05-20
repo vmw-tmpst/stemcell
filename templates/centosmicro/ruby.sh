@@ -2,17 +2,24 @@
 
 source _variables.sh
 
-### stage bosh_ruby
-apt-get -y update
-apt-get -y autoremove
-apt-get -y install build-essential zlib1g-dev libssl-dev libxml2-dev libxslt-dev libreadline6-dev libyaml-dev libffi-dev
+set -x
+
+# install libyaml
+pushd /tmp
+	[ ! -f "yaml-0.1.4.tar.gz" ] && wget http://pyyaml.org/download/libyaml/yaml-0.1.4.tar.gz
+    tar zxf yaml-0.1.4.tar.gz
+    cd yaml-0.1.4
+    ./configure
+    make
+    make install
+popd
 
 # install ruby
 pushd /tmp
 	if [ ! -f "$bosh_dir/bin/ruby" ]
 	then
-	    [ ! -f "$SRC_DIR/_ruby-1.9.3-p385.tar.gz" ] && wget http://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p385.tar.gz
-		tar zxf $SRC_DIR/_ruby-1.9.3-p385.tar.gz
+	    [ ! -f "ruby-1.9.3-p385.tar.gz" ] && wget http://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p385.tar.gz
+		tar zxf ruby-1.9.3-p385.tar.gz
 		cd ruby-1.9.3-p385
 		./configure --prefix=$bosh_dir --disable-install-doc --enable-pthread --enable-shared
 		make && make install
@@ -29,13 +36,11 @@ pushd /tmp
 	fi
 popd
 
-echo "PATH=$bosh_dir/bin:$PATH" > /etc/environment
-source /etc/environment
-
+export PATH=$PATH:$bosh_dir/bin
 $bosh_dir/bin/gem update --system --no-ri --no-rdoc
 
 mkdir -p $bosh_dir/etc
 echo "gem: --no-rdoc --no-ri" >> $bosh_dir/etc/gemrc
 
-#Install gems
+# Install bundler gem
 $bosh_dir/bin/gem install bundler --no-ri --no-rdoc

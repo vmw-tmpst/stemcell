@@ -10,7 +10,7 @@ module Bosh::Agent::StemCell
   #   :iso_md5 => '087713752fa88c03a5e8471c661ad1a2',
   #   :iso_filename => 'CentOS-6.3-x86_64-minimal.iso'
   # }
-  class MicroCentosBuilder < UbuntuBuilder #CentosBuilder
+  class MicroCentosBuilder < CentosBuilder
 
     def type
       "centosmicro"
@@ -59,14 +59,13 @@ module Bosh::Agent::StemCell
     end
 
     def pre_shutdown_hook
-      ssh_download_file("/var/vcap/bosh/stemcell_dpkg_l.out", File.join(@prefix, "stemcell_dpkg_l.out"))
+      ssh_download_file("/var/vcap/bosh/stemcell_yum_list_installed.out", File.join(@prefix, "stemcell_yum_list_installed.out"))
       ssh_download_file("/var/vcap/micro/apply_spec.yml", File.join(@prefix, "apply_spec.yml"))
     end
 
     def stemcell_files
-      [File.join(@prefix, "stemcell_dpkg_l.out"), File.join(@prefix, "apply_spec.yml")]
+      [File.join(@prefix, "stemcell_yum_list_installed.out"), File.join(@prefix, "apply_spec.yml")]
     end
-
   end
 
 end
