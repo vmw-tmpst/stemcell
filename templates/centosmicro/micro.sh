@@ -9,7 +9,7 @@ agent_uri=https://vcap:vcap@${agent_host}:${agent_port}
 export PATH=${bosh_app_dir}/bosh/bin:$PATH
 
 # Packages
-apt-get -y install genisoimage libpq-dev
+yum -y install genisoimage libpq-dev
 
 # Install package compiler
 mkdir -p /tmp/package_compiler
